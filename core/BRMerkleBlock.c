@@ -140,7 +140,7 @@ BRMerkleBlock *BRMerkleBlockParse(const uint8_t *buf, size_t bufLen) {
             if (block->flags) memcpy(block->flags, &buf[off], len);
         }
 
-        if(block->height < X16RV2_START_BLOCK) X16R(&block->blockHash, buf, 80);
+        if(block->timestamp < X16RV2ActivationTime) X16R(&block->blockHash, buf, 80);
         else X16Rv2(&block->blockHash, buf, 80);
     }
 

@@ -574,7 +574,7 @@ static int _PeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t ms
             time_t now = time(NULL);
             UInt256 locators[2];
 
-            if(peer->timestamp < X16RV2ActivationTime) {
+            if(ctx->currentBlock->timestamp < X16RV2ActivationTime) {
                 X16R(&locators[0], &msg[off + 81 * (count - 1)], 80);
                 X16R(&locators[1], &msg[off], 80);
             } else {
@@ -590,7 +590,7 @@ static int _PeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t ms
                     timestamp = (++last < count) ? UInt32GetLE(&msg[off + 81 * last + 68]) : 0;
                 }
 
-                if(peer->timestamp < X16RV2ActivationTime)
+                if(ctx->currentBlock->timestamp < X16RV2ActivationTime)
                 X16R(&locators[0], &msg[off + 81 * (last - 1)], 80);
                 else X16Rv2(&locators[0], &msg[off + 81 * (last - 1)], 80);
 
