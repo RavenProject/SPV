@@ -42,11 +42,18 @@ extern "C" {
 #define DGW_PAST_BLOCKS                     180
 
 #ifdef TESTNET
-#define DGW_START_BLOCK         6048
+#define DGW_START_BLOCK             6048
+#define X16RV2_START_BLOCK          6048 // change once we have a value
+#define X16RV2ActivationTime       1569945600 //Change once we have a value
 #elif REGTEST
-#define DGW_START_BLOCK         0
+#define DGW_START_BLOCK             0
+#define X16RV2_START_BLOCK          0
+#define X16RV2ActivationTime        0
+
 #else
-#define DGW_START_BLOCK         338778
+#define DGW_START_BLOCK             338778
+#define X16RV2_START_BLOCK          6048
+#define X16RV2ActivationTime       1569945600 //Tue Oct 01 2019 16:00:00 UTC
 #endif
 
 typedef struct {

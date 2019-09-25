@@ -574,8 +574,13 @@ static int _PeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t ms
             time_t now = time(NULL);
             UInt256 locators[2];
 
-            X16R(&locators[0], &msg[off + 81 * (count - 1)], 80);
-            X16R(&locators[1], &msg[off], 80);
+            if(ctx->currentBlock->timestamp < X16RV2ActivationTime) {
+                X16R(&locators[0], &msg[off + 81 * (count - 1)], 80);
+                X16R(&locators[1], &msg[off], 80);
+            } else {
+                X16Rv2(&locators[0], &msg[off + 81 * (count - 1)], 80);
+                X16Rv2(&locators[1], &msg[off], 80);
+            }
 
             if (timestamp > 0 && timestamp + 7 * 24 * 60 * 60 + BLOCK_MAX_TIME_DRIFT >= ctx->earliestKeyTime) {
                 // request blocks for the remainder of the chain
@@ -585,7 +590,10 @@ static int _PeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t ms
                     timestamp = (++last < count) ? UInt32GetLE(&msg[off + 81 * last + 68]) : 0;
                 }
 
+                if(ctx->currentBlock->timestamp < X16RV2ActivationTime)
                 X16R(&locators[0], &msg[off + 81 * (last - 1)], 80);
+                else X16Rv2(&locators[0], &msg[off + 81 * (last - 1)], 80);
+
                 BRPeerSendGetblocks(peer, locators, 2, UINT256_ZERO);
             } else BRPeerSendGetheaders(peer, locators, 2, UINT256_ZERO);
 
