@@ -58,7 +58,7 @@
 #define MAX_MSG_LENGTH     0x02000000
 #define MAX_GETDATA_HASHES 50000
 #define ENABLED_SERVICES   0ULL  // we don't provide full blocks to remote nodes
-#define PROTOCOL_VERSION   70013
+#define PROTOCOL_VERSION   70025
 #define MIN_PROTO_VERSION  70002 // peers earlier than this protocol version not supported (need v0.9 txFee relay rules)
 #define LOCAL_HOST         ((UInt128) { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0x7f, 0x00, 0x00, 0x01 })
 #define CONNECT_TIMEOUT    3.0
@@ -574,7 +574,7 @@ static int _PeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t ms
             time_t now = time(NULL);
             UInt256 locators[2];
 
-            if(ctx->currentBlock->timestamp < X16RV2ActivationTime) {
+            if(timestamp < X16RV2ActivationTime) {
                 X16R(&locators[0], &msg[off + 81 * (count - 1)], 80);
                 X16R(&locators[1], &msg[off], 80);
             } else {
@@ -590,9 +590,10 @@ static int _PeerAcceptHeadersMessage(BRPeer *peer, const uint8_t *msg, size_t ms
                     timestamp = (++last < count) ? UInt32GetLE(&msg[off + 81 * last + 68]) : 0;
                 }
 
-                if(ctx->currentBlock->timestamp < X16RV2ActivationTime)
-                X16R(&locators[0], &msg[off + 81 * (last - 1)], 80);
-                else X16Rv2(&locators[0], &msg[off + 81 * (last - 1)], 80);
+                if(timestamp < X16RV2ActivationTime)
+                    X16R(&locators[0], &msg[off + 81 * (last - 1)], 80);
+                else
+                    X16Rv2(&locators[0], &msg[off + 81 * (last - 1)], 80);
 
                 BRPeerSendGetblocks(peer, locators, 2, UINT256_ZERO);
             } else BRPeerSendGetheaders(peer, locators, 2, UINT256_ZERO);

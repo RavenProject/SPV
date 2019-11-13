@@ -37,11 +37,11 @@ static const struct { uint32_t height; const char *hash; uint32_t timestamp; uin
     }; // New testnet, port:18770 useragent:"/Ravencoin2.1.1/"
 
 static const char *dns_seeds[] = {
-       "127.0.0.1", NULL
+//       "127.0.0.1", NULL
 //         "192.168.1.2", NULL
 
 //       "91.207.175.228", NULL // Jeremy node
-//        "seed-testnet-raven.ravencoin.com.", "seed-testnet-raven.ravencoin.org.", "seed-testnet-raven.bitactivate.com.", NULL
+        "seed-testnet-raven.ravencoin.com.", "seed-testnet-raven.ravencoin.org.", "seed-testnet-raven.bitactivate.com.", NULL
 //        "35.163.33.254", "35.210.244.221", "18.202.96.180"
 };
 

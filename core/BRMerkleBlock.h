@@ -44,7 +44,7 @@ extern "C" {
 #ifdef TESTNET
 #define DGW_START_BLOCK             6048
 #define X16RV2_START_BLOCK          6048 // change once we have a value
-#define X16RV2ActivationTime       1569945600 //Change once we have a value
+#define X16RV2ActivationTime       1567533600 //Change once we have a value
 #elif REGTEST
 #define DGW_START_BLOCK             0
 #define X16RV2_START_BLOCK          0
