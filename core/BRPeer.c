@@ -58,7 +58,7 @@
 #define MAX_MSG_LENGTH     0x02000000
 #define MAX_GETDATA_HASHES 50000
 #define ENABLED_SERVICES   0ULL  // we don't provide full blocks to remote nodes
-#define PROTOCOL_VERSION   70025
+#define PROTOCOL_VERSION   70026
 #define MIN_PROTO_VERSION  70002 // peers earlier than this protocol version not supported (need v0.9 txFee relay rules)
 #define LOCAL_HOST         ((UInt128) { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0x7f, 0x00, 0x00, 0x01 })
 #define CONNECT_TIMEOUT    3.0
@@ -291,13 +291,10 @@ static int _PeerAcceptAssetMessage(BRPeer *peer, const uint8_t *msg, size_t msgL
         peer_log(peer, "dropping assets message, %zu is too many assets, max is 512", count);
     } else {
         peer_log(peer, "got asset with %zu data", count);
-        //        nameLen = UInt64GetLE(&msg[off]);
-        //        off += sizeof(uint64_t);
-        
+
         BRAsset *asset = NewAsset();
 
         asset->nameLen = count;
-        
         asset->name = malloc(count + 1);
         memcpy(asset->name, msg + off, count);
         off += count;
@@ -543,11 +540,19 @@ static int _PeerAcceptTxMessage(BRPeer *peer, const uint8_t *msg, size_t msgLen)
             }
         }
 
-        if(tx->asset) {
-            peer_log(peer, "got tx with %s Asset: %lld x %ld[%s]", GetAssetType(tx->asset->type), tx->asset->amount / COIN,
-                    tx->asset->nameLen, tx->asset->name);
+        // Console Debug Display
+#ifdef DEBUG
+        peer_log(peer, "got tx with %ld Asset Output.", tx->asstCount);
+        BRAsset *asset;
+        for (int i = 0; i < tx->asstCount; i++) {
+
+            asset = &tx->asset[i];
+            peer_log(peer, "got tx with %s Asset: %lld x %ld[%s]", GetAssetType(asset->type),
+                         asset->amount / COIN,
+                         asset->nameLen, asset->name);
         }
     }
+#endif
 
     return r;
 }
