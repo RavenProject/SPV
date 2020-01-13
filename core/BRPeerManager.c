@@ -25,27 +25,19 @@
 #if TESTNET
 
 static const struct { uint32_t height; const char *hash; uint32_t timestamp; uint32_t target; } checkpoint_array[] = {
-//        {      0, "000000ecfc5e6324a079542221d00e10362bdc894d56500c414060eea8a3ad5a", 1537466400, 0x1e00ffff },
+//        {       0,      "000000ecfc5e6324a079542221d00e10362bdc894d56500c414060eea8a3ad5a",     1537466400, 0x1e00ffff },
 //        {   2016, "00000020fa58add2a48e6c09f36eaf53a269469672ab0cb2af7f84ae63353237", 1537640786, 0x1e00c778 },
 //        {   4032, "0000003d36307d1a7642b5e279ebd4b20ab9141e5bdf16d482468c5d3b667708", 1537763590, 0x1e010db7 },
-////        {   6594, "00000027eb51702a9436a57790f38ecb419720ee898c0a27ec05365d862d317c", 1537915659, 0x1e009f48 },
-////        {   6595, "0000002f6822bbfb298ebb20071fb74e7df6698769d1543c02f90d87af67dcc8", 1537915696, 0x1e009d3f },
-////        {   6596, "0000005a78617404f6bf03e6a4337feb5b2b70985247e1d864a66b908cfe4878", 1537915736, 0x1e009cc5 },
-////        {   7000, "000000cb2a8326cd11d557c47ee1935f29f0c0fc3612e65b8b793237582382e9", 1537915736, 0x1e009cc5 },
 //        {  20160, "00000101cabd49350adb830dc9acb7be3f0a00140c5b73f1104bdb762396cfe3", 1538903988, 0x1e0102a7 },
-        {  40320, "0000004cd1c1f6ba965e085ec0d223caae734353715a348b19614c7b5dced4cc", 1540403853, 0x1e0088a8 },
-    }; // New testnet, port:18770 useragent:"/Ravencoin2.1.1/"
+//        {  40320, "0000004cd1c1f6ba965e085ec0d223caae734353715a348b19614c7b5dced4cc", 1540403853, 0x1e0088a8 },
+      {       122976, "000000903d87f99e5c3f49c3cd6854439adba01516424498a589e09cce2b56cb",     1577911612, 0x1e01d85b }
+    }; // New testnet (7th), port:18770 useragent:"/Ravencoin2.1.1/"
 
 static const char *dns_seeds[] = {
-//       "127.0.0.1", NULL
-//         "192.168.1.2", NULL
-
-//       "91.207.175.228", NULL // Jeremy node
-        "seed-testnet-raven.ravencoin.com.", "seed-testnet-raven.ravencoin.org.", "seed-testnet-raven.bitactivate.com.", NULL
-//        "35.163.33.254", "35.210.244.221", "18.202.96.180"
+        "seed-testnet-raven.ravencoin.org.", "seed-testnet-raven.ravencoin.com.", "seed-testnet-raven.bitactivate.com.", NULL
 };
 
-#else // main net
+#else // mainnet
 
 // blockchain checkpoints - these are also used as starting points for partial chain downloads, so they need to be at
 // difficulty transition boundaries in order to verify the block difficulty at the immediately following transition
@@ -69,7 +61,20 @@ static const struct { uint32_t height; const char *hash; uint32_t timestamp; uin
         { 302400, "000000000001e9862c28d3359f2b568b03811988f2db2f91ab8b412acac891ed", 1531808927, 0x1b0422c8 },
         { 322560, "000000000001d50eaf12266c6ecaefec473fecd9daa7993db05b89e6ab381388", 1533209846, 0x1b04cb9e },
         { 338778, "000000000003198106731cb28fc24e9ace995a37709b026b25dfa905aea54517", 1535599185, 0x1b07cf3a },
-        { 341086, "000000000001c72e3613de62be33974f69993bf16f10d117d14321afa4259a0e", 1535734416, 0x1b0203f4 }
+        { 341086, "000000000001c72e3613de62be33974f69993bf16f10d117d14321afa4259a0e", 1535734416, 0x1b0203f4 },
+        // New Mainnet checkpoints starts here
+        { 362880, "0000000000019cdd564f3e4cd0dafd7f8be1a789539589e2ea36f7d31c1df4ce", 1537051129, 0x1b029aeb },
+        { 383040, "00000000000138ce591b1f5fbc1da3e82d6932f402d68b4c172fda260360c77b", 1538268949, 0x1b0253c8 },
+        { 403200, "000000000000f9be74dd33d2dc2ce8537e55223cb25e139c7292edbae49acc26", 1539484675, 0x1b01a416 },
+        { 423360, "000000000000c267fd40a4b2a09edf5c7d9bc08d19d71b5d5fdb515a682614dd", 1540697051, 0x1b00c2a8 },
+        { 443520, "0000000000009fae322cd9d92d958c5707bed75b5c350aaca8a0a559140e53d7", 1541914181, 0x1b00b5c2 },
+        { 463680, "000000000000279960081b2540ea8322d0039ffecc9b2e35ac47edcc27a99100", 1543133668, 0x1b00f188 },
+        { 483840, "0000000000007a053786248a9a0e9f4f861d6b5d94bff7f465d1f0ded45ff33a", 1504704195, 0x1801310b },
+        { 504000, "0000000000000000006cd44d7a940c79f94c7c272d159ba19feb15891aa1ea54", 1544352187, 0x1b0126e6 },
+        { 524160, "00000000000027cd32b4a04a3ba899b705d7bf655228fdd803ebd767605440e2", 1546787728, 0x1b01480e },
+        { 544320, "00000000000000f54cdd6b466603b4148a6d76de52ebde034a5ca8bd211f5cc1", 1548006131, 0x1b0155d3 },
+        { 564480, "0000000000008ca3563bac4af9fb9f5914ed40de479dcb8dc510b73c53ca0aad", 1549223997, 0x1b017c07 },
+        { 584640, "0000000000014e2261d13aae38c8c0ba24b484b61e92ee2ab7904a9618f339c7", 1550442252, 0x1b01a3f6 }
 };
 
 static const char *dns_seeds[] = {
