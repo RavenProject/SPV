@@ -9,7 +9,6 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "Version.h"
 #include "BRArray.h"
 #include "BRScript.h"
 #include "BRBase58.h"

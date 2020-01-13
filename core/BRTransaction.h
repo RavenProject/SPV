@@ -22,8 +22,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#ifndef Transaction_h
-#define Transaction_h
+#ifndef BRTransaction_h
+#define BRTransaction_h
 
 #include "BRKey.h"
 #include "BRInt.h"
@@ -104,16 +104,14 @@ typedef enum {
 const char *GetAssetTypeName(BRAssetType code);
 
 typedef struct {
-    BRAssetType type; // enum
-    char *name;
-//    char name[31]; // MAX 31 Bytes
-    size_t nameLen;
-    uint64_t amount;     // 8 Bytes
-    int unit;        // 1 Byte
-    int reissuable;  // 1 Byte
-    int hasIPFS;     // 1 Byte
-    char IPFSHash[47]; // MAX 40 Bytes
-//    char destination[36];
+    BRAssetType type;   // enum
+    char *name;         // asset name
+    size_t nameLen;     // string length
+    uint64_t amount;    // 8 Bytes
+    int unit;           // 1 Byte
+    int reissuable;     // 1 Byte
+    int hasIPFS;        // 1 Byte
+    char IPFSHash[47];  // MAX 40 Bytes
 } BRAsset;
 // RVN ASSETS END
 
@@ -128,6 +126,7 @@ typedef struct {
     uint32_t blockHeight;
     uint32_t timestamp; // time interval since unix epoch
     BRAsset *asset;
+    size_t asstCount;   // New field, assets count. One tx can have many tokens with same or different types.
 } BRTransaction;
 
 // returns a newly allocated empty transaction that must be freed by calling TransactionFree()
@@ -137,7 +136,7 @@ BRTransaction *BRTransactionNew(void);
 BRTransaction *BRTransactionCopy(const BRTransaction *tx);
 
 // buf must contain a serialized tx
-// retuns a transaction that must be freed by calling TransactionFree()
+// returns a transaction that must be freed by calling TransactionFree()
 BRTransaction *BRTransactionParse(const uint8_t *buf, size_t bufLen);
 
 // returns number of bytes written to buf, or total bufLen needed if buf is NULL
