@@ -22,8 +22,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#ifndef Address_h
-#define Address_h
+#ifndef BRAddress_h
+#define BRAddress_h
 
 #include "BRCrypto.h"
 #include "BRScript.h"
@@ -53,17 +53,6 @@ extern "C" {
 
 #define RAVENCOIN_PUBKEY_ADDRESS_REGTEST  111
 #define RAVENCOIN_SCRIPT_ADDRESS_REGTEST  196
-
-// script opcodes: https://en.bitcoin.it/wiki/Script#Constants
-//#define OP_0           0x00
-//#define OP_PUSHDATA1   0x4c
-//#define OP_PUSHDATA2   0x4d
-//#define OP_PUSHDATA4   0x4e
-//#define OP_DUP         0x76
-//#define OP_EQUAL       0x87
-//#define OP_EQUALVERIFY 0x88
-//#define OP_HASH160     0xa9
-//#define OP_CHECKSIG    0xac
 
 // reads a varint from buf and stores its length in intLen if intLen is non-NULL
 // returns the varint value
@@ -127,4 +116,4 @@ inline static int BRAddressEq(const void *addr, const void *otherAddr)
 }
 #endif
 
-#endif // Address_h
+#endif // BRAddress_h

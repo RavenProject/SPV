@@ -7,9 +7,6 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-//#include "crypto/common.h"
-//#include "assets/Assets.h"
-
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>

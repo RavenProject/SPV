@@ -1,6 +1,7 @@
 
 #include "BRScript.h"
 
+// script opcodes: https://en.bitcoin.it/wiki/Script#Constants
 
 const char *GetOpName(enum OPCODETYPE opcode) {
     switch (opcode) {

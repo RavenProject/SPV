@@ -22,8 +22,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#ifndef BIP32Sequence_h
-#define BIP32Sequence_h
+#ifndef BRBIP34Sequence_h
+#define BRBIP34Sequence_h
 
 #include "BRKey.h"
 #include "BRInt.h"
@@ -37,6 +37,9 @@ extern "C" {
 
 // BIP32 is a scheme for deriving chains of addresses from a seed value
 // https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+
+// BIP44 defines a logical HD wallet based on an algorithm described in BIP-0032
+// https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 
 #define BIP32_HARD                  0x80000000
 
@@ -115,4 +118,4 @@ void BRBIP32BitIDKey(BRKey *key, const void *seed, size_t seedLen, uint32_t inde
 }
 #endif
 
-#endif // BRBIP32Sequence_h
+#endif // BRBIP44Sequence_h

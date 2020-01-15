@@ -31,6 +31,7 @@
 #define ASSET_NEW_STRING "new_asset"
 #define ASSET_REISSUE_STRING "reissue_asset"
 
+// Return asset type name from BRAssetType struct, helps with display.
 const char *GetAssetType(BRAssetType type);
 
 // Functions to be used to get access to the current burn amount required for specific asset issuance transactions
@@ -82,7 +83,7 @@ bool SendAssetTransaction(BRWallet* pwallet, BRKey* key);
 // returns a newly allocated empty asset that must be freed by calling AssetFree()
 BRAsset *NewAsset(void);
 
-void showAsset(BRAsset* asset);//BMEX
+void showAsset(BRAsset* asset);
 
 // frees memory allocated for tx
 void AssetFree(BRAsset *asset);

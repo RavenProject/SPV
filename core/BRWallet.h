@@ -93,7 +93,7 @@ size_t BRWalletUnusedAddrs(BRWallet *wallet, BRAddress *addrs, uint32_t gapLimit
 // returns the first unused external address
 BRAddress BRWalletReceiveAddress(BRWallet *wallet);
 
-// writes all addresses previously genereated with WalletUnusedAddrs() to addrs
+// writes all addresses previously generated with WalletUnusedAddrs() to addrs
 // returns the number addresses written, or total number available if addrs is NULL
 size_t BRWalletAllAddrs(BRWallet *wallet, BRAddress *addrs, size_t addrsCount);
 
@@ -137,14 +137,13 @@ BRTransaction *BRWalletCreateTxForRootAssetCreation(BRWallet *wallet, uint64_t a
 BRTransaction *BRWalletCreateTxForRootAssetTransfer(BRWallet *wallet, uint64_t amount, const char *addr, BRAsset *asset);
 
 BRTransaction *BRWalletCreateTxForRootAssetTransferOwnership(BRWallet *wallet, uint64_t amount, const char *addr, BRAsset *asset);
-BRTransaction *BRWalletBurnRootAsset(BRWallet *wallet, BRAsset *asset);
 
+BRTransaction *BRWalletBurnRootAsset(BRWallet *wallet, BRAsset *asset);
     
 // returns an unsigned transaction that satisifes the given transaction outputs
 // result must be freed using TransactionFree()
 //BRTransaction *BRWalletCreateTxForOutputs(BRWallet *wallet, const BRTxOutput *outputs, size_t outCount);
 BRTransaction *BRWalletCreateTxForOutputs(BRWallet *wallet, const BRTxOutput *outputs, size_t outCount, BRAsset *asset);
-
 
 // signs any inputs in tx that can be signed using private keys from the wallet
 // forkId is 0 for bitcoin, 0x40 for b-cash

@@ -111,7 +111,7 @@ typedef struct {
     int unit;           // 1 Byte
     int reissuable;     // 1 Byte
     int hasIPFS;        // 1 Byte
-    char IPFSHash[47];  // MAX 40 Bytes
+    char IPFSHash[47];
 } BRAsset;
 // RVN ASSETS END
 

@@ -1,10 +1,9 @@
 //
-//  Address.c
+//  BRAddress.c
 //
 //  Created by Aaron Voisine on 9/18/15.
 //  Copyright (c) 2015 breadwallet LLC
 //
-
 
 #include "BRAddress.h"
 #include "BRBase58.h"
@@ -236,8 +235,8 @@ size_t BRAddressFromScriptPubKey(char *addr, size_t addrLen, const uint8_t *scri
     data[0] = RAVENCOIN_PUBKEY_ADDRESS_REGTEST;
 #endif
     
-    // TODO count doesn't trigger/ for regular tx =5 for assets tx =8 (remove and fix later)
-    if (/*count == 5 && */*elems[0] == OP_DUP && *elems[1] == OP_HASH160 && *elems[2] == 20 && *elems[3] == OP_EQUALVERIFY
+    // elements count doesn't trigger for regular tx =5 for assets tx =8
+    if ((count == 5 || count == 8) && *elems[0] == OP_DUP && *elems[1] == OP_HASH160 && *elems[2] == 20 && *elems[3] == OP_EQUALVERIFY
         && *elems[4] == OP_CHECKSIG) {
         // pay-to-pubkey-hash scriptPubKey
         d = BRScriptData(elems[2], &l);

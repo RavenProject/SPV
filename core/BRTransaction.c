@@ -28,19 +28,17 @@
 #include "BRArray.h"
 #include <stdlib.h>
 #include <inttypes.h>
-#include <limits.h>
 #include <time.h>
 #include <unistd.h>
-#include <printf.h>
 #include "BRScript.h"
 #include "BRAssets.h"
 
 #define TX_VERSION              0x00000001
 #define TX_LOCKTIME             0x00000000
 #define SIGHASH_ALL             0x01 // default, sign all of the outputs
-#define SIGHASH_NONE            0x02 // sign none of the outputs, I don't care where the bitcoins go
+#define SIGHASH_NONE            0x02 // sign none of the outputs, I don't care where the coins go
 #define SIGHASH_SINGLE          0x03 // sign one of the outputs, I don't care where the other outputs go
-#define SIGHASH_ANYONECANPAY    0x80 // let other people add inputs, I don't care where the rest of the bitcoins come from
+#define SIGHASH_ANYONECANPAY    0x80 // let other people add inputs, I don't care where the rest of the coins come from
 #define SIGHASH_FORKID          0x40 // use BIP143 digest method (for b-cash signatures)
 
 // returns a random number less than upperBound, for non-cryptographic use only
