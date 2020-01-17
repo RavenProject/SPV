@@ -3,6 +3,8 @@
 //
 //  Created by Aaron Voisine on 9/18/15.
 //  Copyright (c) 2015 breadwallet LLC
+//  Update by Roshii on 4/1/18.
+//  Copyright (c) 2018 ravencoin core team
 //
 
 #include "BRAddress.h"
@@ -235,7 +237,7 @@ size_t BRAddressFromScriptPubKey(char *addr, size_t addrLen, const uint8_t *scri
     data[0] = RAVENCOIN_PUBKEY_ADDRESS_REGTEST;
 #endif
     
-    // elements count doesn't trigger for regular tx =5 for assets tx =8
+    // elements count doesn't trigger for regular tx =5 for assets tx it's =8
     if ((count == 5 || count == 8) && *elems[0] == OP_DUP && *elems[1] == OP_HASH160 && *elems[2] == 20 && *elems[3] == OP_EQUALVERIFY
         && *elems[4] == OP_CHECKSIG) {
         // pay-to-pubkey-hash scriptPubKey
@@ -243,6 +245,7 @@ size_t BRAddressFromScriptPubKey(char *addr, size_t addrLen, const uint8_t *scri
         if (l != 20) d = NULL;
         if (d) memcpy(&data[1], d, 20);
     }
+#warning TODO: doesn't support PSH count for assets tx will be >3
     else if (count == 3 && *elems[0] == OP_HASH160 && *elems[1] == 20 && *elems[2] == OP_EQUAL) {
         // pay-to-script-hash scriptPubKey
         data[0] = RAVENCOIN_SCRIPT_ADDRESS;

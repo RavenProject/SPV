@@ -1,17 +1,22 @@
+//
+// BRScript.h
+//
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
 // Copyright (c) 2017 The Raven Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+//
 
-#ifndef SCRIPT_H
-#define SCRIPT_H
+#ifndef BRSCRIPT_H
+#define BRSCRIPT_H
 
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
 #include <string.h>
 #include <stdbool.h>
+#include "BRTransaction.h"
 
 #define RVN_R 114
 #define RVN_V 118
@@ -19,6 +24,8 @@
 #define RVN_Q 113
 #define RVN_T 116
 #define RVN_O 111
+
+#define OWNERSHIP_TRANSFER_TAG 0x21
 
 /** Script opcodes */
 enum OPCODETYPE
@@ -182,4 +189,11 @@ bool IsScriptTransferAsset(const uint8_t *script, size_t scriptLen);
 
 bool IsScriptAsset(const uint8_t *script, size_t scriptLen);
 
-#endif // SCRIPT_H
+bool IsAssetNameRootAsset(const BRAsset *asst);
+
+bool IsAssetNameSubAsset(const BRAsset *asst);
+
+bool IsAssetNameUniqueAsset(const BRAsset *asst);
+
+
+#endif // BRSCRIPT_H

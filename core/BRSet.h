@@ -1,8 +1,10 @@
 //
-//  Set.h
+//  BRSet.h
 //
 //  Created by Aaron Voisine on 9/11/15.
 //  Copyright (c) 2015 breadwallet LLC
+//  Update by Roshii on 4/1/18.
+//  Copyright (c) 2018 ravencoin core team
 //
 
 #ifndef BRSet_h
@@ -45,7 +47,7 @@ int BRSetIntersects(const BRSet *set, const BRSet *otherSet);
 // returns member item from set equivalent to given item, or NULL if there is none
 void *BRSetGet(const BRSet *set, const void *item);
 
-// interates over set and returns the next item after previous, or NULL if no more items are available
+// iterates over set and returns the next item after previous, or NULL if no more items are available
 // if previous is NULL, an initial item is returned
 void *BRSetIterate(const BRSet *set, const void *previous);
 

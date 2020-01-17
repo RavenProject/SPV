@@ -1,6 +1,12 @@
 //
 //  BRSet.c
 //
+//  Created by Aaron Voisine on 9/1/15.
+//  Copyright (c) 2015 breadwallet LLC
+//  Update by Roshii on 4/1/18.
+//  Copyright (c) 2018 ravencoin core team
+//
+
 
 #include "BRSet.h"
 #include <stdlib.h>
