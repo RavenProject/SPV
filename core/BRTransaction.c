@@ -1,26 +1,11 @@
 //
-//  Transaction.c
+//  BRTransaction.c
 //
 //  Created by Aaron Voisine on 8/31/15.
 //  Copyright (c) 2015 breadwallet LLC
+//  Update by Roshii on 4/1/18.
+//  Copyright (c) 2018 ravencoin core team
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
 
 #include "BRTransaction.h"
 #include "BRKey.h"
@@ -38,9 +23,9 @@
 #define TX_VERSION              0x00000001
 #define TX_LOCKTIME             0x00000000
 #define SIGHASH_ALL             0x01 // default, sign all of the outputs
-#define SIGHASH_NONE            0x02 // sign none of the outputs, I don't care where the bitcoins go
+#define SIGHASH_NONE            0x02 // sign none of the outputs, I don't care where the coins go
 #define SIGHASH_SINGLE          0x03 // sign one of the outputs, I don't care where the other outputs go
-#define SIGHASH_ANYONECANPAY    0x80 // let other people add inputs, I don't care where the rest of the bitcoins come from
+#define SIGHASH_ANYONECANPAY    0x80 // let other people add inputs, I don't care where the rest of the coins come from
 #define SIGHASH_FORKID          0x40 // use BIP143 digest method (for b-cash signatures)
 
 // returns a random number less than upperBound, for non-cryptographic use only
@@ -163,6 +148,8 @@ void BRTxOutputSetScript(BRTxOutput *output, const uint8_t *script, size_t scrip
     }
 }
 
+// serializes the tx output at index for a signature pre-image
+// an index of SIZE_MAX will serialize all tx outputs for SIGHASH_ALL signatures
 static size_t _TransactionOutputData(const BRTransaction *tx, uint8_t *data, size_t dataLen, size_t index) {
     BRTxOutput *output;
     size_t i, off = 0;
@@ -309,21 +296,24 @@ static size_t _TransactionData(const BRTransaction *tx, uint8_t *data, size_t da
 }
 
 // returns a newly allocated empty transaction that must be freed by calling TransactionFree()
-BRTransaction *BRTransactionNew(void) {
-    BRTransaction *tx = calloc(1, sizeof(*tx));
+BRTransaction *BRTransactionNew(size_t txCount) {
+    BRTransaction *tx = calloc(txCount, sizeof(*tx));
 
     assert(tx != NULL);
-    tx->version = TX_VERSION;
-    array_new(tx->inputs, 1);
-    array_new(tx->outputs, 2);
-    tx->lockTime = TX_LOCKTIME;
-    tx->blockHeight = TX_UNCONFIRMED;
+    for(int i = 0; i < txCount; i++) {
+        tx[i].version = TX_VERSION;
+        array_new(tx[i].inputs, 1);
+        array_new(tx[i].outputs, 2);
+        tx[i].lockTime = TX_LOCKTIME;
+        tx[i].blockHeight = TX_UNCONFIRMED;
+    }
+
     return tx;
 }
 
 // returns a deep copy of tx and that must be freed by calling TransactionFree()
 BRTransaction *BRTransactionCopy(const BRTransaction *tx) {
-    BRTransaction *cpy = BRTransactionNew();
+    BRTransaction *cpy = BRTransactionNew(1);
     BRTxInput *inputs = cpy->inputs;
     BRTxOutput *outputs = cpy->outputs;
 
@@ -332,6 +322,10 @@ BRTransaction *BRTransactionCopy(const BRTransaction *tx) {
     cpy->inputs = inputs;
     cpy->outputs = outputs;
     cpy->inCount = cpy->outCount = 0;
+
+    /* RVN Start */
+    cpy->asset = tx->asset;
+    /* RVN End */
 
     for (size_t i = 0; i < tx->inCount; i++) {
         BRTransactionAddInput(cpy, tx->inputs[i].txHash, tx->inputs[i].index, tx->inputs[i].amount,
@@ -354,7 +348,7 @@ BRTransaction *BRTransactionParse(const uint8_t *buf, size_t bufLen) {
 
     int isSigned = 1;
     size_t i,j , off = 0, sLen = 0, len = 0;
-    BRTransaction *tx = BRTransactionNew();
+    BRTransaction *tx = BRTransactionNew(1);
     BRTxInput *input;
     BRTxOutput *output;
 
@@ -531,7 +525,7 @@ int BRTransactionIsSigned(const BRTransaction *tx) {
 // adds signatures to any inputs with NULL signatures that can be signed with any keys
 // forkId is 0 for Ravencoin, 0x40 for b-cash
 // returns true if tx is signed
-int BRTransactionSign(BRTransaction *tx, int forkId, BRKey *keys, size_t keysCount) {
+int BRTransactionSign(BRTransaction *tx, BRKey *keys, size_t keysCount) {
     BRAddress addrs[keysCount], address;
     size_t i, j;
 
@@ -558,24 +552,26 @@ int BRTransactionSign(BRTransaction *tx, int forkId, BRKey *keys, size_t keysCou
         size_t sigLen, scriptLen;
         UInt256 md = UINT256_ZERO;
 
-        // OP_EQUALVERIFY condition doesn't trigger for assets input
-        if (elemsCount >= 2 /*&& *elems[elemsCount - 2] == OP_EQUALVERIFY*/) { // pay-to-pubkey-hash
-            uint8_t data[_TransactionData(tx, NULL, 0, i, forkId | SIGHASH_ALL)];
-            size_t dataLen = _TransactionData(tx, data, sizeof(data), i, forkId | SIGHASH_ALL);
+#warning TODO: OP_EQUALVERIFY condition doesn't trigger for assets input
+        if (elemsCount >= 2 && (*elems[elemsCount - 2] == OP_EQUALVERIFY || *elems[elemsCount - 5] == OP_EQUALVERIFY)) { // pay-to-pubkey-hash
+            //        if (elemsCount >= 2 /*&& *elems[elemsCount - 2] == OP_EQUALVERIFY*/) { // pay-to-pubkey-hash
+            uint8_t data[_TransactionData(tx, NULL, 0, i, 0 | SIGHASH_ALL)];
+            size_t dataLen = _TransactionData(tx, data, sizeof(data), i, 0 | SIGHASH_ALL);
 
             SHA256_2(&md, data, dataLen);
             sigLen = BRKeySign(&keys[j], sig, sizeof(sig) - 1, md);
-            sig[sigLen++] = forkId | SIGHASH_ALL;
+            sig[sigLen++] = 0 | SIGHASH_ALL;
             scriptLen = BRScriptPushData(script, sizeof(script), sig, sigLen);
             scriptLen += BRScriptPushData(&script[scriptLen], sizeof(script) - scriptLen, pubKey, pkLen);
             BRTxInputSetSignature(input, script, scriptLen);
+
         } else { // pay-to-pubkey
-            uint8_t data[_TransactionData(tx, NULL, 0, i, forkId | SIGHASH_ALL)];
-            size_t dataLen = _TransactionData(tx, data, sizeof(data), i, forkId | SIGHASH_ALL);
+            uint8_t data[_TransactionData(tx, NULL, 0, i, 0 | SIGHASH_ALL)];
+            size_t dataLen = _TransactionData(tx, data, sizeof(data), i, 0 | SIGHASH_ALL);
 
             SHA256_2(&md, data, dataLen);
             sigLen = BRKeySign(&keys[j], sig, sizeof(sig) - 1, md);
-            sig[sigLen++] = forkId | SIGHASH_ALL;
+            sig[sigLen++] = 0 | SIGHASH_ALL;
             scriptLen = BRScriptPushData(script, sizeof(script), sig, sigLen);
             BRTxInputSetSignature(input, script, scriptLen);
         }
@@ -765,7 +761,6 @@ void BRTransactionFree(BRTransaction *tx) {
         array_free(tx->outputs);
         array_free(tx->inputs);
 
-        //  AssetFree(tx->asset);
         free(tx);
     }
 }

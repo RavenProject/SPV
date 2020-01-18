@@ -1,6 +1,16 @@
+//
+// BRScript.c
+//
+// Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2017 The Raven Core developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+//
 
 #include "BRScript.h"
 
+// script opcodes: https://en.bitcoin.it/wiki/Script#Constants
 
 const char *GetOpName(enum OPCODETYPE opcode) {
     switch (opcode) {
@@ -51,7 +61,7 @@ const char *GetOpName(enum OPCODETYPE opcode) {
     case OP_IFDUP                  : return "OP_IFDUP";
     case OP_DEPTH                  : return "OP_DEPTH";
     case OP_DROP                   : return "OP_DROP";
-//    case OP_DUP                    : return "OP_DUP";
+    case OP_DUP                    : return "OP_DUP";
     case OP_NIP                    : return "OP_NIP";
     case OP_OVER                   : return "OP_OVER";
     case OP_PICK                   : return "OP_PICK";
@@ -205,6 +215,19 @@ bool IsScriptTransferAsset(const uint8_t *script, size_t scriptLen) {
     return helper;
 }
 
+//bool IsScriptOwnershipTransferAsset(const uint8_t *script, size_t scriptLen) {
+//
+//    bool helper = (scriptLen > 30 &&
+//                   script[25] == OP_RVN_ASSET &&
+//                   script[27] == RVN_R &&
+//                   script[28] == RVN_V &&
+//                   script[29] == RVN_N &&
+//                   script[30] == RVN_T);// &&
+//    // script[scriptLen - 2] == OP_DROP);
+//
+//    return helper;
+//}
+
 bool IsScriptAsset(const uint8_t *script, size_t scriptLen) {
 
     assert(script != NULL || scriptLen == 0);
@@ -212,6 +235,36 @@ bool IsScriptAsset(const uint8_t *script, size_t scriptLen) {
     bool helper =  IsScriptTransferAsset(script, scriptLen) || IsScriptReissueAsset(script, scriptLen) ||
             IsScriptOwnerAsset(script, scriptLen) || IsScriptNewAsset(script, scriptLen);
     return helper;
+}
+
+bool IsAssetNameRootAsset(const BRAsset *asst) {
+
+    assert(asst != NULL);
+    assert(asst->name != NULL);
+
+    if(strstr(asst->name, "/") || strstr(asst->name, "#"))
+        return false;
+    else return true;
+}
+
+bool IsAssetNameSubAsset(const BRAsset *asst) {
+
+    assert(asst != NULL);
+    assert(asst->name != NULL);
+
+    if(strstr(asst->name, "/"))
+        return true;
+    else return false;
+}
+
+bool IsAssetNameUniqueAsset(const BRAsset *asst) {
+
+    assert(asst != NULL);
+    assert(asst->name != NULL);
+
+    if(strstr(asst->name, "#"))
+        return true;
+    else return false;
 }
 
 bool IsPayToWitnessScriptHash(const uint8_t *script, size_t scriptLen) {
