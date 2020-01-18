@@ -3,31 +3,15 @@
 //
 //  Created by Aaron Voisine on 1/10/18.
 //  Copyright (c) 2019 breadwallet LLC
+//  Update by Roshii on 4/1/18.
+//  Copyright (c) 2018 ravencoin core team
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
+
 
 #ifndef BRChainParams_h
 #define BRChainParams_h
 
-#include "BRMerkleBlock.h"
-#include "BRPeermanager.h"
-#include "BRSet.h"
+#include "BRPeerManager.h"
 #include <assert.h>
 
 static const int64_t COIN = 100000000;
@@ -51,7 +35,8 @@ static const char *MainNetDNSSeeds[] = {
 };
 
 static const char *TestNetDNSSeeds[] = {
-        "seed-testnet-raven.ravencoin.com", "seed-testnet-raven.ravencoin.org.", "seed-testnet-raven.bitactivate.com.",NULL
+        "127.0.0.1", "3.214.65.115", "3.220.176.189", "107.23.17.170", NULL
+//        "seed-testnet-raven.ravencoin.com", "seed-testnet-raven.ravencoin.org.", "seed-testnet-raven.bitactivate.com.",NULL
 };
 
 static const char *RegTestDNSSeeds[] = {

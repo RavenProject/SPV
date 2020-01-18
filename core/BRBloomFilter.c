@@ -8,7 +8,6 @@
 //
 
 #include "BRBloomFilter.h"
-#include "BRCrypto.h"
 #include "BRAddress.h"
 #include "BRInt.h"
 #include <stdlib.h>

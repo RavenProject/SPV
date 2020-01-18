@@ -10,12 +10,11 @@
 #ifndef BRASSETS_H
 #define BRASSETS_H
 
-#include <string.h>
-#include "BRTransaction.h"
-#include "BRScript.h"
-#include <stdbool.h>
 #include "BRWallet.h"
 #include "BRChainParams.h"
+#include "BRScript.h"
+#include <stdbool.h>
+#include <string.h>
 
 #ifdef TESTNET
 #define ASSET_ACTIVATION        6048

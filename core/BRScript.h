@@ -11,12 +11,12 @@
 #ifndef BRSCRIPT_H
 #define BRSCRIPT_H
 
+#include "BRTransaction.h"
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
 #include <string.h>
 #include <stdbool.h>
-#include "BRTransaction.h"
 
 #define RVN_R 114
 #define RVN_V 118

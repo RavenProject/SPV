@@ -8,15 +8,9 @@
 //
 
 #include "BRPeer.h"
-#include "BRMerkleBlock.h"
-#include "BRAddress.h"
-#include "BRSet.h"
 #include "BRArray.h"
-#include "BRCrypto.h"
-#include "BRInt.h"
 #include "BRScript.h"
 #include "BRAssets.h"
-#include "BRPeerManager.h"
 #include <stdlib.h>
 #include <float.h>
 #include <inttypes.h>
@@ -25,7 +19,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <netdb.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <netinet/in.h>

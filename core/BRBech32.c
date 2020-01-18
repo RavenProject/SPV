@@ -7,11 +7,8 @@
 //  Copyright (c) 2018 ravencoin core team
 //
 
-#include "BRBech32.h"
 #include "BRAddress.h"
-#include "BRCrypto.h"
 #include <inttypes.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>

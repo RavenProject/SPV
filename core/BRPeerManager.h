@@ -14,7 +14,6 @@
 #include "BRMerkleBlock.h"
 #include "BRTransaction.h"
 #include "BRWallet.h"
-//#include "BRChainParams.h"
 #include <stddef.h>
 #include <inttypes.h>
 

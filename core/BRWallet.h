@@ -14,9 +14,9 @@
 #include "BRAddress.h"
 #include "BRBIP44Sequence.h"
 #include "BRInt.h"
+#include "BRSet.h"
 #include <string.h>
 #include <stdbool.h>
-#include "BRSet.h"
 #include <pthread.h>
 
 #ifdef __cplusplus

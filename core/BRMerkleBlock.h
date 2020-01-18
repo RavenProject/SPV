@@ -7,13 +7,13 @@
 //  Copyright (c) 2018 ravencoin core team
 //
 
-#ifndef MerkleBlock_h
-#define MerkleBlock_h
+#ifndef BRMerkleBlock_h
+#define BRMerkleBlock_h
 
 #include "BRInt.h"
+#include "BRSet.h"
 #include <stddef.h>
 #include <inttypes.h>
-#include "BRSet.h"
 
 #ifdef __cplusplus
 extern "C" {

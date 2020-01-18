@@ -9,10 +9,8 @@
 
 #include "BRBIP38Key.h"
 #include "BRAddress.h"
-#include "BRCrypto.h"
 #include "BRBase58.h"
 #include "BRInt.h"
-#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 

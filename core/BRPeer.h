@@ -13,7 +13,6 @@
 #include "BRTransaction.h"
 #include "BRMerkleBlock.h"
 #include "BRAddress.h"
-#include "BRInt.h"
 #include <stddef.h>
 #include <inttypes.h>
 

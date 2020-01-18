@@ -7,15 +7,13 @@
 //
 
 #include "BRAssets.h"
-#include "BRAddress.h"
+#include "BRScript.h"
+#include "BRBase58.h"
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <util.h>
-#include "BRArray.h"
-#include "BRScript.h"
-#include "BRBase58.h"
 
 const char *GetAssetScriptType(BRAssetScriptType type) {
     switch (type) {
