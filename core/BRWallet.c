@@ -543,7 +543,10 @@ BRTransaction *BRWalletCreateTransaction(BRWallet *wallet, uint64_t amount, cons
     return BRWalletCreateTxForOutputs(wallet, &o, 1);
 }
 
-void *BRWalletAddFeeToTransaction(BRWallet *wallet, BRTransaction *transaction) {
+// this method is used in sweeping assets, fees must be added from current wallet
+// adds one output to given transaction for fees to a constructed transaction
+// in case of insufficient fees, transaction is freed by calling TransactionFree()
+void BRWalletAddFeeToTransaction(BRWallet *wallet, BRTransaction *transaction) {
 
     BRTransaction *tx;
     uint64_t feeAmount, balance = 0, minAmount;

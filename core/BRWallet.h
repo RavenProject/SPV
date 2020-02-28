@@ -116,7 +116,10 @@ void BRWalletSetFeePerKb(BRWallet *wallet, uint64_t feePerKb);
 // result must be freed using TransactionFree()
 BRTransaction *BRWalletCreateTransaction(BRWallet *wallet, uint64_t amount, const char *addr);
 
-void *BRWalletAddFeeToTransaction(BRWallet *wallet, BRTransaction *transaction);
+// this method is used in sweeping assets, fees must be added from current wallet
+// adds one output to given transaction for fees to a constructed transaction
+// in case of insufficient fees, transaction is freed by calling TransactionFree()
+void BRWalletAddFeeToTransaction(BRWallet *wallet, BRTransaction *transaction);
 
 //
 //
